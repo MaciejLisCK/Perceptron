@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Perceptron
 {
@@ -22,6 +24,7 @@ namespace Perceptron
 
             var synaptic_weights = new double[] { -0.16595599d, 0.44064899d, -0.99977125d }.ToList();
 
+            // training network
             // iteration
             for (int i = 0; i < 1000; i++)
             {
@@ -50,15 +53,31 @@ namespace Perceptron
                     {
                         synaptic_weights[k] += training_input[k] * adjustment;
                     }
-
-                    if (i == 999)
-                    {
-                        Console.WriteLine(output);
-                    }
                 }
             }
 
-            Console.ReadKey();
+            Console.WriteLine("Network trained");
+
+            // test network
+            while (true)
+            {
+                Console.WriteLine("Enter 3 values followed by [enter] from set [0,1]");
+                var input1 = Double.Parse(Console.ReadLine());
+                var input2 = Double.Parse(Console.ReadLine());
+                var input3 = Double.Parse(Console.ReadLine());
+
+                var user_input = new double[] { input1, input2, input3 };
+
+                // calculate output
+                double sum = 0;
+                for (int k = 0; k < user_input.Length; k++)
+                {
+                    sum += user_input[k] * synaptic_weights[k];
+                }
+                var user_output = Sigmoid(sum);
+
+                Console.WriteLine("Output of network: " + user_output);
+            }
         }
     }
 }
